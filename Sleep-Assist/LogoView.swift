@@ -1,4 +1,6 @@
 import SwiftUI
+import Foundation
+
 
 struct ContentView: View {
     var body: some View {
@@ -31,7 +33,7 @@ struct ContentView2: View {
                 .padding([.leading, .trailing], 40.0)
                 .padding([.top, .bottom], 15.0)
               
-            Text("\(hoursRemaining(from: wakeUp).hours) hours and \(hoursRemaining(from: wakeUp).minutes) minutes until it is time to wakeup.")
+            Text("\(hoursRemainingToWakeup(from: wakeUp).hours) hours and \(hoursRemainingToWakeup(from: wakeUp).minutes) minutes until it is time to wakeup.")
     
 
             ZStack {
@@ -44,27 +46,31 @@ struct ContentView2: View {
             }
         }
     }
-    func hoursRemaining(from selectedDate: Date) -> (hours: Int, minutes: Int) {
+    func hoursRemainingToWakeup(from selectedDate: Date) -> (hours: Int, minutes: Int) {
         let currentDate = Date()
         let timeInterval = selectedDate.timeIntervalSince(currentDate)
         let hours = Int(timeInterval / 3600)
         let minutes = Int((timeInterval.truncatingRemainder(dividingBy: 3600)) / 60)
         return (hours, minutes)
     }
+    
 }
 
 
 struct WakeupTimeDetailView: View {
     @Binding var selectedWakeupTime: Date
     
-    var contentView2 = ContentView2()
-    
-    
     var body: some View {
         ZStack  {
             VStack {
-                DatePicker("Wake up time", selection: $selectedWakeupTime, displayedComponents: .hourAndMinute)
+                DatePicker("Rise & Shine", selection: $selectedWakeupTime, displayedComponents: .hourAndMinute)
                     .padding(40.0)
+            
+                // Future For loop below.
+                Text("For 6 sleep cycles, fall asleep at: \(WakeupTimeDetailView.timeRemainingToCycle(tomorrowWakeTime: selectedWakeupTime))")
+                Text("For 5 sleep cycles, fall asleep at: ")
+                Text("For 4 sleep cycles, fall asleep at: ")
+                
                 Spacer()
                 Image("Moon").resizable().aspectRatio(contentMode: .fit)
                 
@@ -73,7 +79,19 @@ struct WakeupTimeDetailView: View {
             Color.purple.edgesIgnoringSafeArea(.all).zIndex(-1)
         }
     }
-}
+    static func timeRemainingToCycle(tomorrowWakeTime: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "h:mm a"
+        let tomorrowWakeTimeDt = dateFormatter.string(from: tomorrowWakeTime)
+        let tomorrowWakeTimeDate = dateFormatter.date(from:tomorrowWakeTimeDt)
+        let bedtimeDT = Calendar.current.date(byAdding: .hour, value: -9, to: tomorrowWakeTimeDate!)
+        dateFormatter.dateFormat = "h:mm a"
+        let sleepTime = dateFormatter.string(from: bedtimeDT!)
+        
+        return sleepTime
+        }
+    }
+
 
 
 
