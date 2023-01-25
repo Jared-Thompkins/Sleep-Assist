@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  Sleep-Assist
-//
-//  Created by Jared Thompkins on 1/5/23.
-//
-
 import SwiftUI
 
 struct ContentView: View {
@@ -29,32 +22,34 @@ struct ContentView: View {
 
 
 struct ContentView2: View {
-    @State private var wakeUp = Date.now
-    @State private var wakeupTime: Date = Date()
-    @State private var wakeupTimes = [Date]()
+    @State var wakeUp = Date()
+
     
     var body: some View {
         VStack {
             DatePicker("Wake up time", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                
+                .padding([.leading, .trailing], 40.0)
+                .padding([.top, .bottom], 15.0)
               
-//            Button(action: {
-//                let calendar = Calendar.current
-//                let SixCycle = calendar.date(byAdding: .hour, value: -9, to: self.wakeupTime, wrappingComponents: false)!
-//                self.wakeupTimes.append(SixCycle)
-//            }) {
-//                Text("Sleep Outlook")
-//                    .foregroundColor(Color.black)
-//            }
+            Text("\(hoursRemaining(from: wakeUp).hours) hours and \(hoursRemaining(from: wakeUp).minutes) minutes until it is time to wakeup.")
+    
+
             ZStack {
                 RoundedRectangle(cornerRadius: 25)
                     .frame(width: 150.0, height: 30.0).zIndex(-3).foregroundColor(.white)
-                NavigationLink(destination: WakeupTimeDetailView(selectedWakeupTime: $wakeupTime)) {
+                NavigationLink(destination: WakeupTimeDetailView(selectedWakeupTime: $wakeUp)) {
                     Text("Sleep Outlook")
                         .foregroundColor(Color.blue)
                 }
             }
         }
+    }
+    func hoursRemaining(from selectedDate: Date) -> (hours: Int, minutes: Int) {
+        let currentDate = Date()
+        let timeInterval = selectedDate.timeIntervalSince(currentDate)
+        let hours = Int(timeInterval / 3600)
+        let minutes = Int((timeInterval.truncatingRemainder(dividingBy: 3600)) / 60)
+        return (hours, minutes)
     }
 }
 
@@ -62,12 +57,18 @@ struct ContentView2: View {
 struct WakeupTimeDetailView: View {
     @Binding var selectedWakeupTime: Date
     
+    var contentView2 = ContentView2()
+    
+    
     var body: some View {
         ZStack  {
             VStack {
+                DatePicker("Wake up time", selection: $selectedWakeupTime, displayedComponents: .hourAndMinute)
+                    .padding(40.0)
+                Spacer()
                 Image("Moon").resizable().aspectRatio(contentMode: .fit)
-                Text("Selected wakeup time: \(selectedWakeupTime)")
-                    .multilineTextAlignment(.center)
+                
+
             }
             Color.purple.edgesIgnoringSafeArea(.all).zIndex(-1)
         }

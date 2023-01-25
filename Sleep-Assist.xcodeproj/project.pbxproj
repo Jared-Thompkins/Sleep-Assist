@@ -11,6 +11,7 @@
 		DD6158D62967DE600029DB83 /* LogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD6158D52967DE600029DB83 /* LogoView.swift */; };
 		DD6158D82967DE660029DB83 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD6158D72967DE660029DB83 /* Assets.xcassets */; };
 		DD6158DB2967DE660029DB83 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DD6158DA2967DE660029DB83 /* Preview Assets.xcassets */; };
+		DDF964292980F3FF00FB45E3 /* SleepOutlookFunction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDF964282980F3FF00FB45E3 /* SleepOutlookFunction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +20,7 @@
 		DD6158D52967DE600029DB83 /* LogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoView.swift; sourceTree = "<group>"; };
 		DD6158D72967DE660029DB83 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DD6158DA2967DE660029DB83 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		DDF964282980F3FF00FB45E3 /* SleepOutlookFunction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepOutlookFunction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +55,7 @@
 			children = (
 				DD6158D32967DE600029DB83 /* Sleep_AssistApp.swift */,
 				DD6158D52967DE600029DB83 /* LogoView.swift */,
+				DDF964282980F3FF00FB45E3 /* SleepOutlookFunction.swift */,
 				DD6158D72967DE660029DB83 /* Assets.xcassets */,
 				DD6158D92967DE660029DB83 /* Preview Content */,
 			);
@@ -137,6 +140,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DDF964292980F3FF00FB45E3 /* SleepOutlookFunction.swift in Sources */,
 				DD6158D62967DE600029DB83 /* LogoView.swift in Sources */,
 				DD6158D42967DE600029DB83 /* Sleep_AssistApp.swift in Sources */,
 			);
