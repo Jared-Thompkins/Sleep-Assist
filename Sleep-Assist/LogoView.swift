@@ -9,11 +9,7 @@ struct ContentView: View {
                 Color.gray.edgesIgnoringSafeArea(.all).zIndex(-1)
                 
                 VStack {
-                    Text("SleepAssist")
-                        .bold()
-                        .foregroundColor(.black)
-                        .font(.system(size: 21))
-                        .padding(25)
+                    Text("SleepAssist").bold().foregroundColor(.black).font(.system(size: 21)).padding(25)
                     ContentView2()
                 }
             }
@@ -26,26 +22,27 @@ struct ContentView: View {
 struct ContentView2: View {
     @State var wakeUp = Date()
 
-    
     var body: some View {
-        VStack {
-            DatePicker("Wake up time", selection: $wakeUp, displayedComponents: .hourAndMinute)
-                .padding([.leading, .trailing], 40.0)
-                .padding([.top, .bottom], 15.0)
-              
-            Text("\(hoursRemainingToWakeup(from: wakeUp).hours) hours and \(hoursRemainingToWakeup(from: wakeUp).minutes) minutes until it is time to wakeup.")
-    
 
-            ZStack {
-                RoundedRectangle(cornerRadius: 25)
-                    .frame(width: 150.0, height: 30.0).zIndex(-3).foregroundColor(.white)
-                NavigationLink(destination: WakeupTimeDetailView(selectedWakeupTime: $wakeUp)) {
-                    Text("Sleep Outlook")
-                        .foregroundColor(Color.blue)
+            VStack {
+                DatePicker("Wake up time", selection: $wakeUp, displayedComponents: .hourAndMinute)
+                    .padding([.leading, .trailing], 40.0)
+                    .padding([.top, .bottom], 15.0)
+                  
+                Text("\(hoursRemainingToWakeup(from: wakeUp).hours) hours and \(hoursRemainingToWakeup(from: wakeUp).minutes) minutes until it is time to wakeup.")
+        
+
+                ZStack {
+                    RoundedRectangle(cornerRadius: 25)
+                        .frame(width: 150.0, height: 30.0).zIndex(-3).foregroundColor(.white)
+                    NavigationLink(destination: WakeupTimeDetailView(selectedWakeupTime: $wakeUp)) {
+                        Text("Sleep Outlook")
+                            .foregroundColor(Color.blue)
+                    }
                 }
             }
         }
-    }
+
     func hoursRemainingToWakeup(from selectedDate: Date) -> (hours: Int, minutes: Int) {
         let currentDate = Date()
         let timeInterval = selectedDate.timeIntervalSince(currentDate)
@@ -66,10 +63,10 @@ struct WakeupTimeDetailView: View {
                 DatePicker("Rise & Shine", selection: $selectedWakeupTime, displayedComponents: .hourAndMinute)
                     .padding(40.0)
             
-                // Future For loop below.
-                Text("For 6 sleep cycles, fall asleep at: \(WakeupTimeDetailView.timeRemainingToCycle(tomorrowWakeTime: selectedWakeupTime))")
-                Text("For 5 sleep cycles, fall asleep at: ")
-                Text("For 4 sleep cycles, fall asleep at: ")
+                // Future for loop below.
+                Text("For 6 sleep cycles, fall asleep at: \(WakeupTimeDetailView.timeRemainingToCycle(tomorrowWakeTime: selectedWakeupTime, sleepCycleHours: -540))")
+                Text("For 5 sleep cycles, fall asleep at: \(WakeupTimeDetailView.timeRemainingToCycle(tomorrowWakeTime: selectedWakeupTime, sleepCycleHours: -450))")
+                Text("For 4 sleep cycles, fall asleep at: \(WakeupTimeDetailView.timeRemainingToCycle(tomorrowWakeTime: selectedWakeupTime, sleepCycleHours: -360))")
                 
                 Spacer()
                 Image("Moon").resizable().aspectRatio(contentMode: .fit)
@@ -79,12 +76,12 @@ struct WakeupTimeDetailView: View {
             Color.purple.edgesIgnoringSafeArea(.all).zIndex(-1)
         }
     }
-    static func timeRemainingToCycle(tomorrowWakeTime: Date) -> String {
+    static func timeRemainingToCycle(tomorrowWakeTime: Date, sleepCycleHours: Int) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "h:mm a"
         let tomorrowWakeTimeDt = dateFormatter.string(from: tomorrowWakeTime)
         let tomorrowWakeTimeDate = dateFormatter.date(from:tomorrowWakeTimeDt)
-        let bedtimeDT = Calendar.current.date(byAdding: .hour, value: -9, to: tomorrowWakeTimeDate!)
+        let bedtimeDT = Calendar.current.date(byAdding: .minute, value: (sleepCycleHours), to: tomorrowWakeTimeDate!)
         dateFormatter.dateFormat = "h:mm a"
         let sleepTime = dateFormatter.string(from: bedtimeDT!)
         
